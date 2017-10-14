@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:focusableInTouchMode="true"
+    tools:context="cocooncreations.net.moviereviews.ui.movie.search.MovieSearchFragment">
+
+    <EditText
+        android:id="@+id/input_search"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:inputType="text"
+        android:lines="1"
+        android:textSize="20sp"
+        android:textColor="@color/colorAccent"
+        android:hint="@string/search.search_hint"
+        android:background="@color/colorBackground"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</LinearLayout>
