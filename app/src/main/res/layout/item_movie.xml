@@ -12,6 +12,8 @@
         android:id="@+id/image_main"
         android:layout_width="105dp"
         android:layout_height="70dp"
+        android:adjustViewBounds="true"
+        android:scaleType="fitCenter"
         android:src="@drawable/img_default_movie"
         android:background="@color/colorBackground"/>
 
@@ -23,7 +25,7 @@
         android:textSize="18sp"
         android:textColor="@color/colorPrimaryText"
         android:textStyle="bold"
-        android:text="Title" />
+        tools:text="Title" />
 
 
 </LinearLayout>

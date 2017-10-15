@@ -24,6 +24,7 @@ public class Movie extends RealmObject {
     private Link link;
     @SerializedName("multimedia")
     private Multimedia multimedia;
+    private boolean bookmark;
 
     public String getTitle() {
         return title;
@@ -71,5 +72,13 @@ public class Movie extends RealmObject {
 
     public void setMultimedia(Multimedia multimedia) {
         this.multimedia = multimedia;
+    }
+
+    public Boolean isBookmarked() {
+        return bookmark;
+    }
+
+    public void setBookmark(Boolean bookmark) {
+        this.bookmark = bookmark;
     }
 }

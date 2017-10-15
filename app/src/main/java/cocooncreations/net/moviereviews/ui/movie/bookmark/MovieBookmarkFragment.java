@@ -1,4 +1,4 @@
-package cocooncreations.net.moviereviews.ui.movie.search;
+package cocooncreations.net.moviereviews.ui.movie.bookmark;
 
 
 import android.content.Intent;
@@ -11,11 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-
-import com.jakewharton.rxbinding2.widget.RxTextView;
-
-import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -25,30 +20,26 @@ import cocooncreations.net.moviereviews.data.model.Movie;
 import cocooncreations.net.moviereviews.ui.base.adapters.RealmMoviesAdapter;
 import cocooncreations.net.moviereviews.ui.base.listener.OnItemClickListener;
 import cocooncreations.net.moviereviews.ui.movie.detail.MovieDetailActivity;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.realm.Case;
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 
-public class MovieSearchFragment extends Fragment implements MovieSearchMvpView, OnItemClickListener {
+public class MovieBookmarkFragment extends Fragment implements MovieBookmarkMvpView, OnItemClickListener {
 
     private RecyclerView recyclerView;
-    private EditText inputSearch;
     private RealmMoviesAdapter adapter;
 
-    @Inject MovieSearchPresenter presenter;
+    @Inject MovieBookmarkPresenter  presenter;
 
-    public MovieSearchFragment() {
+    public MovieBookmarkFragment() {
     }
 
-    public static MovieSearchFragment newInstance() {
-        MovieSearchFragment fragment = new MovieSearchFragment();
+    public static MovieBookmarkFragment newInstance() {
+        MovieBookmarkFragment fragment = new MovieBookmarkFragment();
         return fragment;
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ((App)getActivity().getApplication()).getAppComponent().inject(this);
         presenter.attachView(this);
@@ -57,7 +48,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_movie_search, container, false);
+        return inflater.inflate(R.layout.fragment_movie_bookmark, container, false);
     }
 
     @Override
@@ -71,15 +62,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        inputSearch = view.findViewById(R.id.input_search);
-        RxTextView.textChanges(inputSearch)
-                .debounce(300, TimeUnit.MILLISECONDS)
-                .map(CharSequence::toString)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(query -> {
-                    presenter.searchMovies(query);
-                    loadSearchResults(query);
-                });
+        presenter.loadBookmarkedMovies();
     }
 
     @Override
@@ -93,15 +76,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
     }
 
     @Override
-    public void showSearchResults(RealmResults<Movie> movies) {
+    public void showMovies(RealmResults<Movie> movies) {
         adapter.updateData(movies);
-    }
-
-    private void loadSearchResults(String query) {
-        if (query.isEmpty()) {
-            adapter.updateData(null);
-        } else {
-            presenter.loadSearchResults(query);
-        }
     }
 }

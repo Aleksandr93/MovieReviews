@@ -1,4 +1,4 @@
-package cocooncreations.net.moviereviews.ui.movie.search;
+package cocooncreations.net.moviereviews.ui.movie.bookmark;
 
 import android.util.Log;
 
@@ -9,21 +9,21 @@ import cocooncreations.net.moviereviews.ui.base.BasePresenter;
 import rx.Subscription;
 
 /**
- * Created by aleksandr on 10/14/17.
+ * Created by aleksandr on 10/15/17.
  */
 
-public class MovieSearchPresenter extends BasePresenter<MovieSearchMvpView> {
+public class MovieBookmarkPresenter extends BasePresenter<MovieBookmarkMvpView> {
 
     private final DataManager dataManager;
     private Subscription subscription;
 
     @Inject
-    MovieSearchPresenter(DataManager dataManager) {
+    MovieBookmarkPresenter(DataManager dataManager) {
         this.dataManager = dataManager;
     }
 
     @Override
-    public void attachView(MovieSearchMvpView mvpView) {
+    public void attachView(MovieBookmarkMvpView mvpView) {
         super.attachView(mvpView);
     }
 
@@ -33,16 +33,10 @@ public class MovieSearchPresenter extends BasePresenter<MovieSearchMvpView> {
         if (subscription != null) subscription.unsubscribe();
     }
 
-    void searchMovies(String query) {
-        if (query != null && !query.isEmpty()) {
-            dataManager.searchMovies(query);
-        }
-    }
-
-    void loadSearchResults(String query) {
-        dataManager.loadSearchResults(query)
+    void loadBookmarkedMovies() {
+        dataManager.loadBookmarkedMovies()
                 .subscribe(movies -> {
-                    getMvpView().showSearchResults(movies);
+                    getMvpView().showMovies(movies);
                 }, throwable -> {
                     Log.e(this.getClass().getSimpleName(), throwable.getMessage());
                 });
