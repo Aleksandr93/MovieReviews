@@ -32,6 +32,8 @@ public class MovieSearchPresenter extends BasePresenter<MovieSearchMvpView> {
     }
 
     void searchMovies(String query) {
-        dataManager.searchMovies(query);
+        if (query != null && !query.isEmpty()) {
+            dataManager.searchMovies(query);
+        }
     }
 }

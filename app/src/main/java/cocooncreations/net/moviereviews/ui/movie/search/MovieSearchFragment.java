@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +23,8 @@ import cocooncreations.net.moviereviews.R;
 import cocooncreations.net.moviereviews.data.model.Movie;
 import cocooncreations.net.moviereviews.ui.base.adapters.RealmMoviesAdapter;
 import cocooncreations.net.moviereviews.ui.base.listener.OnItemClickListener;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.realm.Case;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -32,6 +33,7 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
 
     private RecyclerView recyclerView;
     private EditText inputSearch;
+    private RealmMoviesAdapter adapter;
 
     @Inject MovieSearchPresenter presenter;
 
@@ -63,16 +65,18 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), DividerItemDecoration.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
-        setAdapter(recyclerView);
+        adapter = new RealmMoviesAdapter(getActivity(), null);
+        adapter.setOnItemClickListener(this);
+        recyclerView.setAdapter(adapter);
 
         inputSearch = view.findViewById(R.id.input_search);
         RxTextView.textChanges(inputSearch)
-                .filter(charSequence -> charSequence.length() > 3)
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .map(CharSequence::toString)
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(query -> {
-                    Log.d("LOL", query);
                     presenter.searchMovies(query);
+                    updateData(adapter, query);
                 });
     }
 
@@ -81,12 +85,14 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
 
     }
 
-    private void setAdapter(RecyclerView recyclerView) {
-        Realm realm = Realm.getDefaultInstance();
-        RealmResults<Movie> movies = realm.where(Movie.class).findAll();
-        RealmMoviesAdapter adapter = new RealmMoviesAdapter(getActivity(), movies);
-        adapter.setOnItemClickListener(this);
-        recyclerView.setAdapter(adapter);
+    private void updateData(RealmMoviesAdapter adapter, String query) {
+        if (query.isEmpty()) {
+            adapter.updateData(null);
+        } else {
+            Realm realm = Realm.getDefaultInstance();
+            RealmResults<Movie> movies = realm.where(Movie.class).contains("title", query, Case.INSENSITIVE).findAll();
+            adapter.updateData(movies);
+        }
     }
 
 }

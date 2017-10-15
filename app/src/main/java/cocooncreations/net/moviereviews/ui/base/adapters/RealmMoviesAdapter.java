@@ -46,6 +46,8 @@ public class RealmMoviesAdapter extends RealmRecyclerViewAdapter<Movie, RealmMov
             Glide.with(context).load(movie.getMultimedia().getSrc())
                     .apply(new RequestOptions().placeholder(R.drawable.img_default_movie).error(R.drawable.img_default_movie))
                     .into(holder.imageMain);
+        } else {
+            holder.imageMain.setImageResource(R.drawable.img_default_movie);
         }
         holder.textTitle.setText(movie.getTitle());
     }
