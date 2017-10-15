@@ -7,7 +7,7 @@ import cocooncreations.net.moviereviews.ui.base.MvpView;
  * Created by aleksandr on 10/15/17.
  */
 
-public interface MovieDetailMvpView extends MvpView {
+interface MovieDetailMvpView extends MvpView {
 
     void showMovie(Movie movie);
 }

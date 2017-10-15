@@ -8,7 +8,7 @@ import io.realm.RealmResults;
  * Created by aleksandr on 10/15/17.
  */
 
-public interface MovieBookmarkMvpView extends MvpView {
+interface MovieBookmarkMvpView extends MvpView {
 
     void showMovies(RealmResults<Movie> movies);
 

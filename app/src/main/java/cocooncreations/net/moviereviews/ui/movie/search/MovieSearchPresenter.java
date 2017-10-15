@@ -1,11 +1,11 @@
 package cocooncreations.net.moviereviews.ui.movie.search;
 
-import android.util.Log;
-
 import javax.inject.Inject;
 
 import cocooncreations.net.moviereviews.data.DataManager;
+import cocooncreations.net.moviereviews.data.model.Movie;
 import cocooncreations.net.moviereviews.ui.base.BasePresenter;
+import io.realm.RealmResults;
 import rx.Subscription;
 
 /**
@@ -40,11 +40,8 @@ public class MovieSearchPresenter extends BasePresenter<MovieSearchMvpView> {
     }
 
     void loadSearchResults(String query) {
-        dataManager.loadSearchResults(query)
-                .subscribe(movies -> {
-                    getMvpView().showSearchResults(movies);
-                }, throwable -> {
-                    Log.e(this.getClass().getSimpleName(), throwable.getMessage());
-                });
+        checkViewAttached();
+        RealmResults<Movie> movies = dataManager.loadSearchResults(query);
+        getMvpView().showSearchResults(movies);
     }
 }

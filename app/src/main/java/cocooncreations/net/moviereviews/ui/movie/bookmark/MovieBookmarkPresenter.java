@@ -1,11 +1,11 @@
 package cocooncreations.net.moviereviews.ui.movie.bookmark;
 
-import android.util.Log;
-
 import javax.inject.Inject;
 
 import cocooncreations.net.moviereviews.data.DataManager;
+import cocooncreations.net.moviereviews.data.model.Movie;
 import cocooncreations.net.moviereviews.ui.base.BasePresenter;
+import io.realm.RealmResults;
 import rx.Subscription;
 
 /**
@@ -34,11 +34,8 @@ public class MovieBookmarkPresenter extends BasePresenter<MovieBookmarkMvpView> 
     }
 
     void loadBookmarkedMovies() {
-        dataManager.loadBookmarkedMovies()
-                .subscribe(movies -> {
-                    getMvpView().showMovies(movies);
-                }, throwable -> {
-                    Log.e(this.getClass().getSimpleName(), throwable.getMessage());
-                });
+        checkViewAttached();
+        RealmResults<Movie> movies = dataManager.loadBookmarkedMovies();
+        getMvpView().showMovies(movies);
     }
 }

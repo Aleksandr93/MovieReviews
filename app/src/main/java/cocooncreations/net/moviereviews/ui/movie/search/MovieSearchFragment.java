@@ -26,8 +26,6 @@ import cocooncreations.net.moviereviews.ui.base.adapters.RealmMoviesAdapter;
 import cocooncreations.net.moviereviews.ui.base.listener.OnItemClickListener;
 import cocooncreations.net.moviereviews.ui.movie.detail.MovieDetailActivity;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.realm.Case;
-import io.realm.Realm;
 import io.realm.RealmResults;
 
 
@@ -80,6 +78,12 @@ public class MovieSearchFragment extends Fragment implements MovieSearchMvpView,
                     presenter.searchMovies(query);
                     loadSearchResults(query);
                 });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
     }
 
     @Override

@@ -35,6 +35,7 @@ public class MovieDetailPresenter extends BasePresenter<MovieDetailMvpView> {
     }
 
     void loadMovie(String title) {
+        checkViewAttached();
         subscription = dataManager.loadMovie(title)
                 .filter(ManagableObject::isValid)
                 .subscribe(movie -> {

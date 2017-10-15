@@ -25,7 +25,7 @@ import io.realm.RealmRecyclerViewAdapter;
 
 public class RealmMoviesAdapter extends RealmRecyclerViewAdapter<Movie, RealmMoviesAdapter.ViewHolder> {
 
-    private Context context;
+    private final Context context;
     private OnItemClickListener onItemClickListener;
 
     public RealmMoviesAdapter(@NonNull Context context, @Nullable OrderedRealmCollection<Movie> data) {

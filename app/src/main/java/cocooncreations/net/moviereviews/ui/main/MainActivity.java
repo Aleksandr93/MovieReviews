@@ -1,13 +1,11 @@
 package cocooncreations.net.moviereviews.ui.main;
 
+import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-
-import android.support.v4.view.ViewPager;
-import android.os.Bundle;
 import android.view.Menu;
-import android.view.MenuItem;
 
 import cocooncreations.net.moviereviews.R;
 import cocooncreations.net.moviereviews.ui.base.adapters.ViewPagerAdapter;
@@ -35,16 +33,10 @@ public class MainActivity extends AppCompatActivity {
         setUpViewPager(viewPager);
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
     }
 
     private void setUpViewPager(ViewPager viewPager) {

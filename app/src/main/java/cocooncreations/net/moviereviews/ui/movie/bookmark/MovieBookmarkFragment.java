@@ -66,6 +66,12 @@ public class MovieBookmarkFragment extends Fragment implements MovieBookmarkMvpV
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.detachView();
+    }
+
+    @Override
     public void onItemClick(View itemView, int position) {
         Movie movie = adapter.getItem(position);
         if (movie != null) {

@@ -9,11 +9,8 @@ import cocooncreations.net.moviereviews.data.model.Movie;
 import cocooncreations.net.moviereviews.data.network.ApiRestService;
 import io.realm.Case;
 import io.realm.Realm;
-import io.realm.RealmObject;
 import io.realm.RealmResults;
-import io.realm.internal.ManagableObject;
 import rx.Observable;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -23,10 +20,10 @@ import rx.schedulers.Schedulers;
 @Singleton
 public class DataManager {
 
-    private ApiRestService apiRestService;
+    private final ApiRestService apiRestService;
 
     @Inject
-    public DataManager(ApiRestService apiRestService) {
+    DataManager(ApiRestService apiRestService) {
         this.apiRestService = apiRestService;
     }
 
@@ -58,16 +55,14 @@ public class DataManager {
         return realm.where(Movie.class).equalTo("title", title).findFirstAsync().asObservable();
     }
 
-    public Observable<RealmResults<Movie>> loadSearchResults(String query) {
+    public RealmResults<Movie> loadSearchResults(String query) {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(Movie.class).contains("title", query, Case.INSENSITIVE).findAllAsync()
-                .asObservable();
+        return realm.where(Movie.class).contains("title", query, Case.INSENSITIVE).findAll();
     }
 
-    public Observable<RealmResults<Movie>> loadBookmarkedMovies() {
+    public RealmResults<Movie> loadBookmarkedMovies() {
         Realm realm = Realm.getDefaultInstance();
-        return realm.where(Movie.class).equalTo("bookmark", true).findAllAsync()
-                .asObservable();
+        return realm.where(Movie.class).equalTo("bookmark", true).findAll();
     }
 
     public void changeBookmarkStatus(String title) {

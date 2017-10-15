@@ -3,7 +3,6 @@ package cocooncreations.net.moviereviews.data.network;
 import android.app.Application;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonElement;
 
 import cocooncreations.net.moviereviews.App;
 import cocooncreations.net.moviereviews.BuildConfig;
@@ -16,7 +15,6 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.GET;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
 
